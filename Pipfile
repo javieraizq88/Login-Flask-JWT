@@ -12,7 +12,7 @@ flask-migrate = "*"
 flask-cors = "*"
 flask-sqlalchemy = "*"
 flask-bcrypt = "*"
-flask-jwr-extended = "*"
+flask-jwt-extended = "*"
 
 [requires]
 python_version = "3.7"

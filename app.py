@@ -32,7 +32,6 @@ def login():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON request"}), 400# valido q se esta mandando la info
 
-
     username = request.json.get("username", None)# le doy un valor por defecto en caso q no venga la variable
     password = request.json.get("password", None)# le doy un valor por defecto en caso q no venga la variable
 
@@ -55,7 +54,6 @@ def login():
         return jsonify(data), 200
     else:
         return jsonify({"msg" : "Username or password are incorrect"}), 401# da mensaje de error si usuario o contraseña estan mal y si el usuario no existe
-
 
 
 @app.route("/register", methods=["POST"])# debe ser POST pq voy a mandar info en el body del mensaje a la API

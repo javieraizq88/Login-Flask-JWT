@@ -26,11 +26,42 @@ CORS(app)
 def main():
     return render_template("index.html")
 
+# LOGIN
+@app.route("/login", methods=["POST"])# debe ser POST pq voy a mandar info en el body del mensaje a la API
+def login():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON request"}), 400# valido q se esta mandando la info
+
+
+    username = request.json.get("username", None)# le doy un valor por defecto en caso q no venga la variable
+    password = request.json.get("password", None)# le doy un valor por defecto en caso q no venga la variable
+
+    # VALIDACION DEL USERNAME Y PASSWORD Q SON OBLIGATORIOS
+    if not username or username == "":
+        return jsonify({"msg": "Missing username request"}), 400
+    if not password or password == "":
+        return jsonify({"msg": "Missing passwword request"}), 400
+
+    user = User.query.filter_by(username=username).first()# valida q el username existe
+    if not user:
+        return jsonify({"msg" : "Username or password are incorrect"}), 401# da mensaje de error si usuario o contraseña estan mal y si el usuario no existe
+
+    if bcrypt.check_password_hash(user.password, password):  
+        access_token = create_access_token(identity=user.username)# crea un access token y devuelvo un objeto con la info del usuario
+        data = {
+            "access_token": access_token,
+            "user": user.serialize()
+        }
+        return jsonify(data), 200
+    else:
+        return jsonify({"msg" : "Username or password are incorrect"}), 401# da mensaje de error si usuario o contraseña estan mal y si el usuario no existe
+
+
+
 @app.route("/register", methods=["POST"])# debe ser POST pq voy a mandar info en el body del mensaje a la API
 def register():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON request"}), 400# valido q se esta mandando la info
-
 
     username = request.json.get("username", None)# le doy un valor por defecto en caso q no venga la variable
     password = request.json.get("password", None)# le doy un valor por defecto en caso q no venga la variable

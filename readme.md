@@ -50,3 +50,15 @@
 17) crear el token con JWT_SECRET_KEY y create_access_token
 
 18) probar en insmonmia si esta ok el registro
+    - confirmar si se valida los datos
+    - si llega el mensaje diciendo q falta usuario o contraseña
+    - si crea el usuario con el token
+el token comunica con la API
+
+19) LOGIN
+- confirmar si el usuario existe
+- confirmar si password corresponde al usuario
+- confirmar q usuario y password esta correctas
+
+bcrypt.check_password_hash = verifica el password.
+    crea un token con la contraseña escrita en el login y la compara con el token guardada en la BD
